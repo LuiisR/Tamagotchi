@@ -37,16 +37,25 @@ public class RatoncitoFiuFiu {
     }
 
     public int queTramoEdad() {
-        return 0;
+        if (tiempo <= 2500) {
+            return 0;
+        } else if (tiempo <= 8000) {
+            return 1;
+        } else {
+            return 0;
+        }
     }
 
     public boolean estasDormido() {
+
         return false;
     }
-    public boolean estasFeliz(){
+
+    public boolean estasFeliz() {
         return (!tienesHambre() && !estasEnfermo() && !estasSucio());
     }
-    public boolean tienesHambre(){
+
+    public boolean tienesHambre() {
         return this.hambre > 6;
     }
 
@@ -72,21 +81,21 @@ public class RatoncitoFiuFiu {
             } else {
                 this.hambre++;
             }
-            if (this.suciedad == 100){
+            if (this.suciedad == 100) {
                 estasSucio();
             } else {
                 this.suciedad += 10;
             }
-            if (this.salud == 0){
+            if (this.salud == 0) {
                 estasMuerto();
-            } else if (this.salud <= 30){
+            } else if (this.salud <= 30) {
                 estasEnfermo();
-            }else {
+            } else {
                 this.salud -= 10;
             }
-            if (this.energia == 0){
+            if (this.energia == 0) {
                 estasDormido();
-            } else{
+            } else {
                 this.energia -= 10;
             }
             tiempo = 0;
@@ -94,7 +103,7 @@ public class RatoncitoFiuFiu {
     }
 
     public boolean tienesQuejas() {
-        return false;
+        return !estasFeliz();
     }
 
     public void alimentar(float cantidadAlimento) {
@@ -103,7 +112,8 @@ public class RatoncitoFiuFiu {
     }
 
     public void curar(float cantidadMedicina) {
-        this.salud += cantidadMedicina;
+        aumentarEnergia(cantidadMedicina);
+        aumentarSalud(cantidadMedicina);
     }
 
     private void ganarPeso(float cantidad) {
