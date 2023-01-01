@@ -12,7 +12,10 @@ public class RatoncitoFiuFiu {
     private final int NINO = 0;
     private final int ADULTO = 1;
     private final int VIEJO = 2;
-    private boolean comeMucho;
+    private boolean duerme;
+    private final int INFANCIA = 1000;
+    private final int ADULTEZ = 5000;
+    private final int VEJEZ = 8500;
 
     public RatoncitoFiuFiu(String nombre, int peso, int hambre, int suciedad, int salud, int energia) {
         // Un objeto mascota.RatoncitoFiuFiu debería informar cuando nace...
@@ -23,6 +26,7 @@ public class RatoncitoFiuFiu {
         this.suciedad = suciedad;
         this.salud = salud;
         this.energia = energia;
+        duerme = false;
     }
 
 
@@ -44,9 +48,9 @@ public class RatoncitoFiuFiu {
     }
 
     public int queTramoEdad() {
-        if (edad <= 1000) {
+        if (edad <= INFANCIA) {
             return NINO;
-        } else if (edad <= 5000) {
+        } else if (edad <= ADULTEZ) {
             return ADULTO;
         } else {
             return VIEJO;
@@ -54,14 +58,15 @@ public class RatoncitoFiuFiu {
     }
     public boolean estasDormido() {
         if (energia <= 30) {
-            return true;
-        } else {
-            return false;
+            duerme = true;
+        } else if (energia >= 80){
+            duerme = false;
         }
+        return duerme;
     }
 
     public boolean estasEnfermo() {
-        return salud <= 25 || comeMucho;
+        return salud <= 25;
     }
 
     public boolean estasSucio() {
@@ -69,7 +74,7 @@ public class RatoncitoFiuFiu {
     }
 
     public boolean estasMuerto() {
-        return salud <= 0;
+        return salud <= 0 || edad > VEJEZ;
     }
 
     public boolean tienesHambre() {
@@ -77,7 +82,7 @@ public class RatoncitoFiuFiu {
     }
 
     public boolean estasFeliz() {
-        return !estasSucio() && !estasEnfermo() && !tienesHambre();
+        return !estasSucio() && !tienesHambre();
     }
 
     private void ganarPeso(float cantidad) {
@@ -91,6 +96,11 @@ public class RatoncitoFiuFiu {
         if (energia >= 100){
             this.energia = 100;
         }
+        if (energia <= 30) {
+            duerme = true;
+        } else if (energia >= 80){
+            duerme = false;
+        }
     }
 
     private void aumentarSalud(float cantidad) {
@@ -103,7 +113,7 @@ public class RatoncitoFiuFiu {
     public void envejecer(int segundos) {
         this.edad += segundos;
         tiempo += segundos;
-        if (tiempo > 30) {
+        if (tiempo > 5) {
             this.hambre += 5;
             if (hambre >= 100){
                 this.hambre = 100;
@@ -120,6 +130,14 @@ public class RatoncitoFiuFiu {
             if (energia <= 0){
                 this.energia = 0;
             }
+            if (energia <= 30) {
+                duerme = true;
+            } else if (energia >= 80){
+                duerme = false;
+            }
+            if (duerme){
+                aumentarEnergia(5);
+            }
             tiempo = 0;
         }
     }
@@ -128,11 +146,8 @@ public class RatoncitoFiuFiu {
     }
 
     public void alimentar(float cantidadAlimento) {
-        if (tienesHambre()){
+        if (tienesHambre()) {
             aumentarSalud(cantidadAlimento);
-            comeMucho = false;
-        }else {
-            comeMucho = true;
         }
         this.hambre -= cantidadAlimento;
         if (hambre <= 0){
@@ -144,7 +159,6 @@ public class RatoncitoFiuFiu {
     }
 
     public void curar(float cantidadMedicina) {
-        aumentarEnergia(cantidadMedicina);
         aumentarSalud(cantidadMedicina);
     }
 }
