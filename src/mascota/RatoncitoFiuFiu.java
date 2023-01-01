@@ -44,9 +44,9 @@ public class RatoncitoFiuFiu {
     }
 
     public int queTramoEdad() {
-        if (edad <= 2500) {
+        if (edad <= 1000) {
             return NINO;
-        } else if (edad <= 8000) {
+        } else if (edad <= 5000) {
             return ADULTO;
         } else {
             return VIEJO;
@@ -103,7 +103,7 @@ public class RatoncitoFiuFiu {
     public void envejecer(int segundos) {
         this.edad += segundos;
         tiempo += segundos;
-        if (tiempo > 5) {
+        if (tiempo > 30) {
             this.hambre += 5;
             if (hambre >= 100){
                 this.hambre = 100;
@@ -138,7 +138,9 @@ public class RatoncitoFiuFiu {
         if (hambre <= 0){
             this.hambre = 0;
         }
-        ganarPeso(cantidadAlimento);
+        if (!estasEnfermo()){
+            ganarPeso(cantidadAlimento);
+        }
     }
 
     public void curar(float cantidadMedicina) {
