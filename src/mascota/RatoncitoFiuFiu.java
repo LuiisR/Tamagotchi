@@ -136,7 +136,7 @@ public class RatoncitoFiuFiu {
                 duerme = false;
             }
             if (duerme){
-                aumentarEnergia(5);
+                aumentarEnergia(15);
             }
             tiempo = 0;
         }
