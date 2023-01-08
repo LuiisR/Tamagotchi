@@ -22,6 +22,7 @@ public class DuenoIGU extends JFrame {
     private JButton botonCurar = new JButton();
     private JButton botonAlimentar = new JButton();
     private JButton botonJugar = new JButton();
+    private JButton botonMatar = new JButton();
     private TitledBorder titledBorder1;
     private JSplitPane jSplitPane1 = new JSplitPane();
     private JLabel labelGrafica = new JLabel();
@@ -32,6 +33,7 @@ public class DuenoIGU extends JFrame {
     private Timer temporizador;
     private long horaActual, horaAnterior;
     private boolean estadoAnimacion = true;
+
 
     class Envejecimiento extends TimerTask {
         RatoncitoFiuFiu mascota;
@@ -61,7 +63,7 @@ public class DuenoIGU extends JFrame {
             dormidoEnfermo = dormido && enfermo;
             dormidoEnfermoSucio = dormidoSucio && dormidoEnfermo;
             muerto = mascota.estasMuerto();
-            jugando = mascota.jugar(1);
+            jugando = mascota.estaJuegando();
 
             try {
                 rutaImagenes = getClass().getResource("../imagenes").toString();
@@ -69,6 +71,7 @@ public class DuenoIGU extends JFrame {
                 ruta2 = "";
 
                 if (!mascota.tienesQuejas() || muerto) {
+
                     if (despiertoEnfermoSucio) {
                         ruta1 = rutaImagenes + "/despierto-enfermo-sucio-" + tramoEdad.toString() + "-00.gif";
                         ruta2 = rutaImagenes + "/despierto-enfermo-sucio-" + tramoEdad.toString() + "-01.gif";
@@ -93,9 +96,6 @@ public class DuenoIGU extends JFrame {
                     } else if (dormido) {
                         ruta1 = rutaImagenes + "/dormido-" + tramoEdad.toString() + "-00.gif";
                         ruta2 = rutaImagenes + "/dormido-" + tramoEdad.toString() + "-01.gif";
-                    } else if (jugando){
-                        ruta1 = rutaImagenes + "/jugando-00.gif";
-                        ruta2 = rutaImagenes + "/jugando-01.gif";
                     }
                     if (muerto) {
                         ruta1 = rutaImagenes + "/muerto.gif";
@@ -109,6 +109,10 @@ public class DuenoIGU extends JFrame {
                         ruta1 = rutaImagenes + "/quejarse-" + tramoEdad.toString() + "-00.gif";
                         ruta2 = rutaImagenes + "/quejarse-" + tramoEdad.toString() + "-01.gif";
                     }
+                }
+                if (jugando){
+                    ruta1 = rutaImagenes + "/jugando-00.gif";
+                    ruta2 = rutaImagenes + "/jugando-01.gif";
                 }
 
                 try {
@@ -203,6 +207,12 @@ public class DuenoIGU extends JFrame {
                 botonJugar_mouseClicked(e);
             }
         });
+        botonMatar.setText("MATARLO");
+        botonMatar.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e){
+                botonMatar_mouseClicked(e);
+            }
+        });
         jSplitPane1.setOrientation(JSplitPane.VERTICAL_SPLIT);
         jSplitPane1.setBorder(null);
         jSplitPane1.setBottomComponent(labelGrafica);
@@ -219,6 +229,7 @@ public class DuenoIGU extends JFrame {
         jToolBar1.add(botonLimpiar, null);
         jToolBar1.add(botonEstadisticas, null);
         jToolBar1.add(botonJugar, null);
+        jToolBar1.add(botonMatar, null);
         contentPane.add(jSplitPane1, BorderLayout.CENTER);
         jSplitPane1.add(labelGrafica, JSplitPane.RIGHT);
         jSplitPane1.add(labelSalida, JSplitPane.LEFT);
@@ -233,7 +244,9 @@ public class DuenoIGU extends JFrame {
             System.exit(0);
         }
     }
-
+    void botonMatar_mouseClicked(MouseEvent e){
+        mascota.matar();
+    }
     void botonAlimentar_mouseClicked(MouseEvent e) {
         // Aqui alimentamos a la mascota
         mascota.alimentar(15);
@@ -257,6 +270,7 @@ public class DuenoIGU extends JFrame {
 
     void botonJugar_mouseClicked(MouseEvent e) {
         mascota.jugar(10);
+
     }
 
     void hazmeCaso() {

@@ -132,7 +132,7 @@ public class RatoncitoFiuFiu {
     public void envejecer(int segundos) {
         this.edad += segundos;
         tiempo += segundos;
-        if (tiempo > 5) {
+        if (tiempo > 60) {
             this.hambre += 5;
             if (hambre >= 100){
                 this.hambre = 100;
@@ -141,10 +141,10 @@ public class RatoncitoFiuFiu {
             if (suciedad >= 100){
                 this.suciedad = 100;
             }
-            this.salud -= 5;
-            if (salud <= 0){
-                this.salud = 0;
+            if (queTramoEdad() ==VEJEZ){
+                aumentarSalud(-10);
             }
+            aumentarSalud(-5);
             this.energia -= 5;
             if (energia <= 0){
                 this.energia = 0;
@@ -154,13 +154,13 @@ public class RatoncitoFiuFiu {
             } else if (energia >= 80){
                 duerme = false;
             }
-            if ((duerme) && edad <= INFANCIA){
+            if ((duerme) && (queTramoEdad() == NINO)){
                 aumentarEnergia(5);
             }
-            if ((duerme) && edad <= ADULTEZ){
+            if ((duerme) && (queTramoEdad() == ADULTO)){
                 aumentarEnergia(10);
             }
-            if ((duerme) && edad <= VEJEZ){
+            if ((duerme) && (queTramoEdad() == VIEJO)){
                 aumentarEnergia(15);
             }
             if (estasEnfermo()){
@@ -180,20 +180,33 @@ public class RatoncitoFiuFiu {
         }
     }
     public boolean tienesQuejas() {
-        return !estasFeliz() || !estasEnfermo();
+        return !estasFeliz();
     }
 
     public void alimentar(float cantidadAlimento) {
         if (tienesHambre()) {
             aumentarSalud(cantidadAlimento);
             aumentarFelicidad(1);
+            if (queTramoEdad() == ADULTO){
+                this.hambre -= cantidadAlimento;
+                if (hambre <= 0){
+                    this.hambre = 0;
+                }
+            } else if (queTramoEdad() == NINO) {
+                this.hambre -= (cantidadAlimento - 5);
+                if (hambre <= 0){
+                    this.hambre = 0;
+                }
+                else {
+                    this.hambre -= (cantidadAlimento - 10);
+                    if (hambre <= 0){
+                        this.hambre = 0;
+                    }
+                }
+            }
         } else{
            aumentarFelicidad(-1);
            aumentarSalud(-cantidadAlimento);
-        }
-        this.hambre -= cantidadAlimento;
-        if (hambre <= 0){
-            this.hambre = 0;
         }
         if (!estasEnfermo()){
             ganarPeso(cantidadAlimento);
@@ -225,5 +238,9 @@ public class RatoncitoFiuFiu {
     }
     public boolean estaJuegando(){
         return juegar;
+    }
+    public boolean matar(){
+        this.salud = 0;
+        return true;
     }
 }
