@@ -21,6 +21,7 @@ public class DuenoIGU extends JFrame {
     private JButton botonLimpiar = new JButton();
     private JButton botonCurar = new JButton();
     private JButton botonAlimentar = new JButton();
+    private JButton botonJugar = new JButton();
     private TitledBorder titledBorder1;
     private JSplitPane jSplitPane1 = new JSplitPane();
     private JLabel labelGrafica = new JLabel();
@@ -192,6 +193,12 @@ public class DuenoIGU extends JFrame {
                 botonAlimentar_mouseClicked(e);
             }
         });
+        botonJugar.setText("Jugar");
+        botonJugar.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e){
+                botonJugar_mouseClicked(e);
+            }
+        });
         jSplitPane1.setOrientation(JSplitPane.VERTICAL_SPLIT);
         jSplitPane1.setBorder(null);
         jSplitPane1.setBottomComponent(labelGrafica);
@@ -207,6 +214,7 @@ public class DuenoIGU extends JFrame {
         jToolBar1.add(botonCurar, null);
         jToolBar1.add(botonLimpiar, null);
         jToolBar1.add(botonEstadisticas, null);
+        jToolBar1.add(botonJugar, null);
         contentPane.add(jSplitPane1, BorderLayout.CENTER);
         jSplitPane1.add(labelGrafica, JSplitPane.RIGHT);
         jSplitPane1.add(labelSalida, JSplitPane.LEFT);
@@ -241,6 +249,10 @@ public class DuenoIGU extends JFrame {
         //Aqu� pedimos estadisticas
         labelSalida.setText(mascota.estadisticas());
         horaAnterior = System.currentTimeMillis();
+    }
+
+    void botonJugar_mouseClicked(MouseEvent e) {
+        mascota.jugar(10);
     }
 
     void hazmeCaso() {

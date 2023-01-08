@@ -161,4 +161,7 @@ public class RatoncitoFiuFiu {
     public void curar(float cantidadMedicina) {
         aumentarSalud(cantidadMedicina);
     }
+    public boolean jugar (float cantidadDiversion){
+        return false;
+    }
 }
