@@ -10,6 +10,7 @@ public class RatoncitoFiuFiu {
     private int energia;
     private int tiempo;
     private int feliz;
+    private boolean juegar;
     private final int NINO = 0;
     private final int ADULTO = 1;
     private final int VIEJO = 2;
@@ -182,13 +183,18 @@ public class RatoncitoFiuFiu {
     }
     public boolean jugar (float cantidadDiversion){
         if (estasDormido() || estasEnfermo() || estasSucio() || tienesHambre()){
+            juegar = false;
             return false;
         } else {
             this.energia -= cantidadDiversion;
             this.hambre += cantidadDiversion;
             this.suciedad += 5;
             aumentarFelicidad(2);
+            juegar = true;
             return true;
         }
+    }
+    public boolean estaJuegando(){
+        return juegar == true;
     }
 }

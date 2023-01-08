@@ -48,7 +48,7 @@ public class DuenoIGU extends JFrame {
             Integer tramoEdad = mascota.queTramoEdad();
             String rutaImagenes;
             URL URLruta1, URLruta2;
-            boolean despierto, sucio, enfermo, despiertoSucio, despiertoEnfermo, despiertoEnfermoSucio, dormido, dormidoSucio, dormidoEnfermo, dormidoEnfermoSucio, muerto;
+            boolean despierto, sucio, enfermo, despiertoSucio, despiertoEnfermo, despiertoEnfermoSucio, dormido, dormidoSucio, dormidoEnfermo, dormidoEnfermoSucio, muerto, jugando;
 
             despierto = !mascota.estasDormido();
             dormido = !despierto;
@@ -61,6 +61,7 @@ public class DuenoIGU extends JFrame {
             dormidoEnfermo = dormido && enfermo;
             dormidoEnfermoSucio = dormidoSucio && dormidoEnfermo;
             muerto = mascota.estasMuerto();
+            jugando = mascota.estaJuegando();
 
             try {
                 rutaImagenes = getClass().getResource("../imagenes").toString();
@@ -92,6 +93,9 @@ public class DuenoIGU extends JFrame {
                     } else if (dormido) {
                         ruta1 = rutaImagenes + "/dormido-" + tramoEdad.toString() + "-00.gif";
                         ruta2 = rutaImagenes + "/dormido-" + tramoEdad.toString() + "-01.gif";
+                    } else if (jugando){
+                        ruta1 = rutaImagenes + "/jugando-00.gif";
+                        ruta2 = rutaImagenes + "/jugando-01.gif";
                     }
                     if (muerto) {
                         ruta1 = rutaImagenes + "/muerto.gif";
