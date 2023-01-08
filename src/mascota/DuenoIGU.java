@@ -61,7 +61,7 @@ public class DuenoIGU extends JFrame {
             dormidoEnfermo = dormido && enfermo;
             dormidoEnfermoSucio = dormidoSucio && dormidoEnfermo;
             muerto = mascota.estasMuerto();
-            jugando = mascota.estaJuegando();
+            jugando = mascota.jugar(1);
 
             try {
                 rutaImagenes = getClass().getResource("../imagenes").toString();

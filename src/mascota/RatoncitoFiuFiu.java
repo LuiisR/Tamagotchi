@@ -86,12 +86,15 @@ public class RatoncitoFiuFiu {
     }
 
     public boolean estasFeliz() {
-        return feliz >= 7;
+        return feliz >= 7 && !estasEnfermo() && !estasSucio();
     }
 
     private void ganarPeso(float cantidad) {
         if (!estasEnfermo()){
             this.peso += cantidad;
+        }
+        if (this.peso <= 20){
+            this.peso = 20;
         }
     }
 
@@ -111,6 +114,9 @@ public class RatoncitoFiuFiu {
         this.salud += cantidad;
         if (salud >= 100){
             this.salud = 100;
+        }
+        if (salud <= 0){
+            this.salud = 0;
         }
     }
     private void aumentarFelicidad (float cantidad){
@@ -148,17 +154,33 @@ public class RatoncitoFiuFiu {
             } else if (energia >= 80){
                 duerme = false;
             }
-            if (duerme){
+            if ((duerme) && edad <= INFANCIA){
+                aumentarEnergia(5);
+            }
+            if ((duerme) && edad <= ADULTEZ){
+                aumentarEnergia(10);
+            }
+            if ((duerme) && edad <= VEJEZ){
                 aumentarEnergia(15);
             }
             if (estasEnfermo()){
                 aumentarFelicidad(-1);
             }
+            if (estasEnfermo()){
+                ganarPeso(-10);
+            } else {
+                ganarPeso(-5);
+            }
+            if (estasSucio()){
+                aumentarSalud(-10);
+            } else{
+                aumentarSalud(-5);
+            }
             tiempo = 0;
         }
     }
     public boolean tienesQuejas() {
-        return !estasFeliz();
+        return !estasFeliz() || !estasEnfermo();
     }
 
     public void alimentar(float cantidadAlimento) {
@@ -167,6 +189,7 @@ public class RatoncitoFiuFiu {
             aumentarFelicidad(1);
         } else{
            aumentarFelicidad(-1);
+           aumentarSalud(-cantidadAlimento);
         }
         this.hambre -= cantidadAlimento;
         if (hambre <= 0){
@@ -178,8 +201,14 @@ public class RatoncitoFiuFiu {
     }
 
     public void curar(float cantidadMedicina) {
-        aumentarSalud(cantidadMedicina);
-        aumentarFelicidad(1);
+        if (!estasEnfermo()){
+            this.salud -= 10;
+        }
+        else{
+            aumentarSalud(cantidadMedicina);
+            aumentarFelicidad(1);
+            this.salud = 5;
+        }
     }
     public boolean jugar (float cantidadDiversion){
         if (estasDormido() || estasEnfermo() || estasSucio() || tienesHambre()){
@@ -195,6 +224,6 @@ public class RatoncitoFiuFiu {
         }
     }
     public boolean estaJuegando(){
-        return juegar == true;
+        return juegar;
     }
 }
